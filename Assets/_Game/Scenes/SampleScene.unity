@@ -166,6 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 7948138359655352642, guid: 55a142c7bc2784ea588ab5b21f833459,
     type: 3}
+  boardRect: {fileID: 303555060}
 --- !u!1 &239046532
 GameObject:
   m_ObjectHideFlags: 0
