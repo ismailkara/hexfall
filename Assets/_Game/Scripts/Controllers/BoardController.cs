@@ -14,6 +14,7 @@ public class BoardController : MonoBehaviour
     private Tile[,] board;
     private ObjectPool pool;
     private Vector2 tileSize;
+    private Vector2 boardOffet;
     
 
     private GameConfig currentConfig;
@@ -70,9 +71,14 @@ public class BoardController : MonoBehaviour
         
         
         // buradan sonrakiler board da ortalamak icin, anchor larını  merkezde tutmak istedim o yuzden elle ayarladım 
-        temp.rect.anchoredPosition += boardRect.rect.width * .5f * Vector2.left; // yatay ortalamak
+        // yatay ortalamak
+        temp.rect.anchoredPosition += tileSize.x *  boardOffet.x * .25f * Vector2.left; 
         temp.rect.anchoredPosition += tileSize.x * .5f * Vector2.right;
-
+        
+        
+        temp.rect.anchoredPosition += tileSize.y *  boardOffet.y * .5f * Vector2.down; 
+        temp.rect.anchoredPosition += tileSize.y * Vector2.up;
+        // -482.216 -56.78399
 
     }
 
@@ -105,6 +111,8 @@ public class BoardController : MonoBehaviour
         boardWidth += .5f; // sonuncu cıkıntısı
         boardWidth += (currentConfig.boardWidth % 2) * 1.5f; // tek sayıda stun varsa en sona eklenecek uzunluk;
 
+        boardOffet.x = boardWidth;
+
         return 2 * boardRect.rect.width / boardWidth; // x2 cunku bir kenar 1 birim uzunlugunda olursa altıgeni cevreleyen imajın genisiligi 2 olur
     }
 
@@ -113,9 +121,13 @@ public class BoardController : MonoBehaviour
         //oyunun oynanabilmesi icin en az iki stun gerekir, 1 stun olma durumunu hesaplamadım o yuzden
 
 
-        float boardHeight = currentConfig.boardHeight + .5f; // sonuncunun cıkıntısı
+        float boardHeight = currentConfig.boardHeight + .5f; // .5 sonuncunun cıkıntısı
+        
+        boardOffet.y = boardHeight;
+        
         float tileHeight = boardRect.rect.height / boardHeight;
         float tileWidth = tileHeight * TileSizeRatio;
+        
 
         return tileWidth;
     }
