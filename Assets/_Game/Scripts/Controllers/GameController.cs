@@ -16,6 +16,6 @@ public class GameController : MonoBehaviour
 
     void newGame()
     {
-        OnNewGame?.Invoke(easy);
+        OnNewGame?.Invoke(hard);
     }
 }

@@ -62,6 +62,7 @@ public class BoardController : MonoBehaviour
     void spawnTile(int i, int j)
     {
         Tile temp = pool.get<Tile>();
+        temp.init(this, currentConfig);
         temp.transform.SetParent(boardRect);
         
         temp.rect.sizeDelta = tileSize;
