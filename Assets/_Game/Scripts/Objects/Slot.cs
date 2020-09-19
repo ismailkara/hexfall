@@ -1,21 +1,26 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class Slot : MonoBehaviour
 {
-    [SerializeField] private Image _faceImage;
     
     public RectTransform rect;
+    public Tile tile;
+    
     public int type { get; private set; }
     public int x { get; private set; }
     public int y { get; private set; }
 
-    public void init(BoardController boardController, GameConfig config, int i, int j)
+    public void init(int i, int j)
     {
-        type = Random.Range(0, config.colors.Length);
-        _faceImage.color = config.colors[type];
-
         x = i;
         y = j;
+    }
+
+    public void addTile(Tile t)
+    {
+        tile = t;
+        tile.transform.SetParent(transform);
+        tile._rect.offsetMax = Vector2.zero;
+        tile._rect.offsetMin = Vector2.zero;
     }
 }

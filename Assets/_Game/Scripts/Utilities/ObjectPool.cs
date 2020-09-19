@@ -49,5 +49,8 @@ public class ObjectPool
     {
         usedObjects.Remove(obj);
         pooledObjects.Add(obj);
+        
+        obj.transform.SetParent(null);
+        obj.transform.position = Vector3.one * 99999;
     }
 }

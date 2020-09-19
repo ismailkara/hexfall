@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -6,9 +7,11 @@ public class BoardController : MonoBehaviour
 {
     public static BoardController Instance;
 
+    public static Action<Slot[,]> OnBoardReady;
+    
     private const float TileSizeRatio = 1.1547005383792515290182975610039149112952035025402537520372046529f; // duzgun altıgenin boy/en oranı, 2/√3
     
-    [SerializeField] private GameObject tilePrefab, anchorPrefab;
+    [SerializeField] private GameObject slotPrefab, anchorPrefab;
     [SerializeField] private RectTransform slotHolder, anchorHolder;
     
     
@@ -29,7 +32,7 @@ public class BoardController : MonoBehaviour
 
     void init()
     {
-        _slotPool = new ObjectPool(tilePrefab);
+        _slotPool = new ObjectPool(slotPrefab);
         _anchorPool = new ObjectPool(anchorPrefab);
         subscribeEvents();
     }
@@ -48,6 +51,7 @@ public class BoardController : MonoBehaviour
         buildBoard();
         buildAnchors();
         registerSlotsToAnchors();
+        OnBoardReady?.Invoke(_board);
     }
 
     #endregion
@@ -156,7 +160,7 @@ public class BoardController : MonoBehaviour
     Slot spawnTile(int i, int j)
     {
         Slot temp = _slotPool.get<Slot>();
-        temp.init(this, currentConfig, i, j);
+        temp.init(i, j);
         temp.transform.SetParent(slotHolder);
         
         temp.rect.sizeDelta = _tileSize;
@@ -176,11 +180,12 @@ public class BoardController : MonoBehaviour
         
         
         // buradan sonrakiler board da ortalamak icin, anchor larını  merkezde tutmak istedim o yuzden elle ayarladım 
-        // yatay ortalamak
+        
+        // yatay ortalama
         position += _tileSize.x *  _boardOffet.x * .25f * Vector2.left; 
         position += _tileSize.x * .5f * Vector2.right;
         
-        
+        // dikey ortalma
         position += _tileSize.y *  _boardOffet.y * .5f * Vector2.down; 
         position += _tileSize.y * Vector2.up;
         

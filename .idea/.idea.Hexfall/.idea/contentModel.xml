@@ -9,6 +9,7 @@
             <e p="Controllers" t="Include">
               <e p="BoardController.cs" t="Include" />
               <e p="GameController.cs" t="Include" />
+              <e p="GameLogic.cs" t="Include" />
             </e>
             <e p="Data" t="Include">
               <e p="GameConfig.cs" t="Include" />
@@ -16,6 +17,7 @@
             <e p="Objects" t="Include">
               <e p="Anchor.cs" t="Include" />
               <e p="Slot.cs" t="Include" />
+              <e p="Tile.cs" t="Include" />
             </e>
             <e p="Utilities" t="Include">
               <e p="ObjectPool.cs" t="Include" />

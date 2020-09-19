@@ -9,10 +9,11 @@ public class Anchor : MonoBehaviour
 
     public void onClick()
     {
-        foreach (var slot in slots)
-        {
-            slot.transform.localScale = .9f * Vector3.one;
-        }
+        // foreach (var slot in slots)
+        // {
+        //     slot.transform.localScale = .9f * Vector3.one;
+        // }
+        GameLogic.Instance.anchorSelected(this);
     }
     public void addSlots(List<Slot> tiles)
     {
