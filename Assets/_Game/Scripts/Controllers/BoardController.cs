@@ -103,7 +103,7 @@ public class BoardController : MonoBehaviour
 
         float boardWidth = Mathf.Floor((float) currentConfig.boardWidth / 2) * doubleColumnWidth;
         boardWidth += .5f; // sonuncu cıkıntısı
-        boardWidth += (currentConfig.boardWidth % 2) * .75f; // tek sayıda stun varsa en sona eklenecek uzunluk;
+        boardWidth += (currentConfig.boardWidth % 2) * 1.5f; // tek sayıda stun varsa en sona eklenecek uzunluk;
 
         return 2 * boardRect.rect.width / boardWidth; // x2 cunku bir kenar 1 birim uzunlugunda olursa altıgeni cevreleyen imajın genisiligi 2 olur
     }
