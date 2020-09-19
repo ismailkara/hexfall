@@ -6,13 +6,13 @@ public class BoardController : MonoBehaviour
 
     private const float TileSizeRatio = 1.1547005383792515290182975610039149112952035025402537520372046529f; // duzgun altıgenin boy/en oranı, 2/√3
     
-    [SerializeField] private GameObject tilePrefab;
-    [SerializeField] private RectTransform boardRect;
+    [SerializeField] private GameObject tilePrefab, anchorPrefab;
+    [SerializeField] private RectTransform slotHolder, anchorHolder;
     
     
     
     private Tile[,] board;
-    private ObjectPool pool;
+    private ObjectPool slotPool, anchorPool;
     private Vector2 tileSize;
     private Vector2 boardOffet;
     
@@ -26,7 +26,8 @@ public class BoardController : MonoBehaviour
 
     void init()
     {
-        pool = new ObjectPool(tilePrefab);
+        slotPool = new ObjectPool(tilePrefab);
+        anchorPool = new ObjectPool(anchorPrefab);
         subscribeEvents();
     }
   
@@ -42,6 +43,7 @@ public class BoardController : MonoBehaviour
         currentConfig = config;
         calculateCellSize();
         buildBoard();
+        buildAnchors();
     }
 
     #endregion
@@ -54,34 +56,99 @@ public class BoardController : MonoBehaviour
         {
             for (int j = 0; j < currentConfig.boardHeight; j++)
             {
-                spawnTile(i, j);
+                Tile tile = spawnTile(i, j);
+                board[i, j] = tile;
             }
         }
     }
 
-    void spawnTile(int i, int j)
+    void buildAnchors()
     {
-        Tile temp = pool.get<Tile>();
-        temp.init(this, currentConfig);
-        temp.transform.SetParent(boardRect);
+        foreach (var slot in board)
+        {
+            bool evenColumn = slot.x % 2 == 0;
+            
+            bool bottomRow = slot.y == 0;
+            bool topRow = slot.y == board.GetLength(1) - 1;
+            
+            bool leftColumn = slot.x == 0;
+            bool rightColumn = slot.x == board.GetLength(0) - 1;
+
+            bool bottomAndOddColumn = bottomRow && !evenColumn;
+            bool topAndEvenColumn = topRow && evenColumn;
+
+            bool notEdge = !topAndEvenColumn && !bottomAndOddColumn;
+            
+            
+            Vector2 anchorPosition;
+
+            Anchor anchor = null;
+            if (!leftColumn)
+            {
+                if (!topAndEvenColumn && !bottomAndOddColumn)
+                {
+                    anchor = anchorPool.get<Anchor>();
+                    anchor.transform.SetParent(anchorHolder);
+                    
+                    anchorPosition = slot.rect.anchoredPosition + (.5f * tileSize.x * Vector2.left);
+                    
+                    anchor.rect.anchoredPosition = anchorPosition;
+                }
+                
+            }
+
+            if (!rightColumn)
+            {
+                if (notEdge)
+                {
+                    anchor = anchorPool.get<Anchor>();
+                    anchor.transform.SetParent(anchorHolder);
+                    
+                    anchorPosition = slot.rect.anchoredPosition + (.5f * tileSize.x * Vector2.right);
+                    
+                    anchor.rect.anchoredPosition = anchorPosition;
+                    
+                }
+
+            }
+            
+        }
+    }
+
+    Tile spawnTile(int i, int j)
+    {
+        Tile temp = slotPool.get<Tile>();
+        temp.init(this, currentConfig, i, j);
+        temp.transform.SetParent(slotHolder);
         
         temp.rect.sizeDelta = tileSize;
-        temp.rect.anchoredPosition = new Vector2(i * .75f, j) * tileSize;
+
+        temp.rect.anchoredPosition = calculatePosition(i, j);
         
-        temp.rect.anchoredPosition += (i % 2) * .5f * tileSize.y * Vector2.down; // tek indexteki stunlarn pozisyonlarını asagıya itiyor
+        return temp;
+    }
+
+    Vector2 calculatePosition(int i, int j)
+    {
+        Vector2 position = Vector2.zero;
+        
+        position = new Vector2(i * .75f, j) * tileSize;
+        
+        position += (i % 2) * .5f * tileSize.y * Vector2.down; // tek indexteki stunlarn pozisyonlarını asagıya itiyor
         
         
         // buradan sonrakiler board da ortalamak icin, anchor larını  merkezde tutmak istedim o yuzden elle ayarladım 
         // yatay ortalamak
-        temp.rect.anchoredPosition += tileSize.x *  boardOffet.x * .25f * Vector2.left; 
-        temp.rect.anchoredPosition += tileSize.x * .5f * Vector2.right;
+        position += tileSize.x *  boardOffet.x * .25f * Vector2.left; 
+        position += tileSize.x * .5f * Vector2.right;
         
         
-        temp.rect.anchoredPosition += tileSize.y *  boardOffet.y * .5f * Vector2.down; 
-        temp.rect.anchoredPosition += tileSize.y * Vector2.up;
-        // -482.216 -56.78399
-
+        position += tileSize.y *  boardOffet.y * .5f * Vector2.down; 
+        position += tileSize.y * Vector2.up;
+        
+        return position;
     }
+    
 
     //board alanına sıgacak en buyuk tile'ı hesaplama
     void calculateCellSize()
@@ -114,7 +181,7 @@ public class BoardController : MonoBehaviour
 
         boardOffet.x = boardWidth;
 
-        return 2 * boardRect.rect.width / boardWidth; // x2 cunku bir kenar 1 birim uzunlugunda olursa altıgeni cevreleyen imajın genisiligi 2 olur
+        return 2 * slotHolder.rect.width / boardWidth; // x2 cunku bir kenar 1 birim uzunlugunda olursa altıgeni cevreleyen imajın genisiligi 2 olur
     }
 
     private float CalculateMaxWidthForHeight()
@@ -126,7 +193,7 @@ public class BoardController : MonoBehaviour
         
         boardOffet.y = boardHeight;
         
-        float tileHeight = boardRect.rect.height / boardHeight;
+        float tileHeight = slotHolder.rect.height / boardHeight;
         float tileWidth = tileHeight * TileSizeRatio;
         
 
