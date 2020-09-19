@@ -5,11 +5,18 @@ public class Anchor : MonoBehaviour
 {
     public RectTransform rect;
     
-    public Tile[] slots;
+    public Slot[] slots;
 
-    public void addSlots(List<Tile> tiles)
+    public void onClick()
     {
-        slots = new Tile[3];
+        foreach (var slot in slots)
+        {
+            slot.transform.localScale = .9f * Vector3.one;
+        }
+    }
+    public void addSlots(List<Slot> tiles)
+    {
+        slots = new Slot[3];
         tiles = arrangeSlots(tiles);
         for (int i = 0; i < 3; i++)
         {
@@ -18,14 +25,14 @@ public class Anchor : MonoBehaviour
     }
 
     //slot ların acısına gore sıralı olması gerekir
-    List<Tile> arrangeSlots(List<Tile> tiles)
+    List<Slot> arrangeSlots(List<Slot> tiles)
     {
-        List<Tile> result = new List<Tile>();
+        List<Slot> result = new List<Slot>();
         float minAngle = 9999;
         float maxAngle = -9999;
 
-        Tile max = null;
-        Tile min = null;
+        Slot max = null;
+        Slot min = null;
 
         foreach (var slot in tiles)
         {

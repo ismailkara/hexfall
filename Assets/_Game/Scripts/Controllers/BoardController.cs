@@ -13,7 +13,7 @@ public class BoardController : MonoBehaviour
     
     
     
-    private Tile[,] _board;
+    private Slot[,] _board;
     private List<Anchor> _anchors;
     private ObjectPool _slotPool, _anchorPool;
     private Vector2 _tileSize;
@@ -54,14 +54,14 @@ public class BoardController : MonoBehaviour
 
     void buildBoard()
     {
-        _board = new Tile[currentConfig.boardWidth, currentConfig.boardHeight];
+        _board = new Slot[currentConfig.boardWidth, currentConfig.boardHeight];
 
         for (int i = 0; i < currentConfig.boardWidth; i++)
         {
             for (int j = 0; j < currentConfig.boardHeight; j++)
             {
-                Tile tile = spawnTile(i, j);
-                _board[i, j] = tile;
+                Slot slot = spawnTile(i, j);
+                _board[i, j] = slot;
             }
         }
     }
@@ -130,10 +130,10 @@ public class BoardController : MonoBehaviour
     {
         float distanceTreshold = _tileSize.x * .55f; // tile ın eninin yarısı altıgenin kosesinin merkeze uzaklıgı kadar. Float esitlemek guvenilir olmadıgı icin .5 degil .55 aldım.
         distanceTreshold *= distanceTreshold; // daha performanslı oldugu icin magnetude degil sqrtMagnitude karsılastırıyorum
-        List<Tile> temp;
+        List<Slot> temp;
         foreach (var anchor in _anchors)
         {
-            temp = new List<Tile>();
+            temp = new List<Slot>();
             int index = 0;
             foreach (var slot in _board)
             {
@@ -153,9 +153,9 @@ public class BoardController : MonoBehaviour
         }
     }
 
-    Tile spawnTile(int i, int j)
+    Slot spawnTile(int i, int j)
     {
-        Tile temp = _slotPool.get<Tile>();
+        Slot temp = _slotPool.get<Slot>();
         temp.init(this, currentConfig, i, j);
         temp.transform.SetParent(slotHolder);
         
