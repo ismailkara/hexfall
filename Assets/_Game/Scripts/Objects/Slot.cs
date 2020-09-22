@@ -20,7 +20,8 @@ public class Slot : MonoBehaviour
     {
         tile = t;
         tile.transform.SetParent(transform);
-        tile._rect.offsetMax = Vector2.zero;
-        tile._rect.offsetMin = Vector2.zero;
+        tile.transform.localPosition = Vector3.zero;
+        tile.rect.offsetMax = Vector2.zero;
+        tile.rect.offsetMin = Vector2.zero;
     }
 }

@@ -7,7 +7,7 @@ public class BoardController : MonoBehaviour
 {
     public static BoardController Instance;
 
-    public static Action<Slot[,]> OnBoardReady;
+    public static Action<GameConfig, Slot[,]> OnBoardReady;
     
     private const float TileSizeRatio = 1.1547005383792515290182975610039149112952035025402537520372046529f; // duzgun altıgenin boy/en oranı, 2/√3
     
@@ -23,7 +23,7 @@ public class BoardController : MonoBehaviour
     private Vector2 _boardOffet;
     
 
-    private GameConfig currentConfig;
+    private GameConfig _currentConfig;
     private void Awake()
     {
         Instance = this;
@@ -46,23 +46,23 @@ public class BoardController : MonoBehaviour
 
     void handleNewGame(GameConfig config)
     {
-        currentConfig = config;
+        _currentConfig = config;
         calculateCellSize();
         buildBoard();
         buildAnchors();
         registerSlotsToAnchors();
-        OnBoardReady?.Invoke(_board);
+        OnBoardReady?.Invoke(_currentConfig, _board);
     }
 
     #endregion
 
     void buildBoard()
     {
-        _board = new Slot[currentConfig.boardWidth, currentConfig.boardHeight];
+        _board = new Slot[_currentConfig.boardWidth, _currentConfig.boardHeight];
 
-        for (int i = 0; i < currentConfig.boardWidth; i++)
+        for (int i = 0; i < _currentConfig.boardWidth; i++)
         {
-            for (int j = 0; j < currentConfig.boardHeight; j++)
+            for (int j = 0; j < _currentConfig.boardHeight; j++)
             {
                 Slot slot = spawnSlot(i, j);
                 _board[i, j] = slot;
@@ -218,9 +218,9 @@ public class BoardController : MonoBehaviour
 
         float doubleColumnWidth = 3; //her 2 stunun ekledigi genislik
 
-        float boardWidth = Mathf.Floor((float) currentConfig.boardWidth / 2) * doubleColumnWidth;
+        float boardWidth = Mathf.Floor((float) _currentConfig.boardWidth / 2) * doubleColumnWidth;
         boardWidth += .5f; // sonuncu cıkıntısı
-        boardWidth += (currentConfig.boardWidth % 2) * 1.5f; // tek sayıda stun varsa en sona eklenecek uzunluk;
+        boardWidth += (_currentConfig.boardWidth % 2) * 1.5f; // tek sayıda stun varsa en sona eklenecek uzunluk;
 
         _boardOffet.x = boardWidth;
 
@@ -232,7 +232,7 @@ public class BoardController : MonoBehaviour
         //oyunun oynanabilmesi icin en az iki stun gerekir, 1 stun olma durumunu hesaplamadım o yuzden
 
 
-        float boardHeight = currentConfig.boardHeight + .5f; // .5 sonuncunun cıkıntısı
+        float boardHeight = _currentConfig.boardHeight + .5f; // .5 sonuncunun cıkıntısı
         
         _boardOffet.y = boardHeight;
         
