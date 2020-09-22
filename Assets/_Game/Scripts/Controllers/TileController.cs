@@ -32,9 +32,13 @@ public class TileController : MonoBehaviour
 
     void handleTileDestroyed(List<Tile> tiles)
     {
+        int index = 0;
+        
         foreach (var tile in tiles)
         {
+            index++;
             fillEmptySlot(tile.slot);
+            tile.recycle();
         }
     }
     void handleBoardReady(GameConfig config, Slot[,] slots)
@@ -52,13 +56,8 @@ public class TileController : MonoBehaviour
     {
         foreach (var slot in _board)
         {
-            int type = _currentConfig.getRandomType();
-            Color color = _currentConfig.getColorOfType(type);
-            
-            Tile tile = _tilePool.get<Tile>();
-            tile.setUp(slot, _tilePool);
-            tile.setType(type, color);
-            slot.addTile(tile);
+
+            Tile tile = spawnTile(slot);
             tile.resetPosition();
         }
     }
@@ -71,6 +70,8 @@ public class TileController : MonoBehaviour
             Slot lowerSlot = _board[slot.x, i];
             if (lowerSlot.tile == null)
             {
+                
+                
                 bool found = false;
                 for (int j = i + 1; j < boardHeight; j++)
                 {
@@ -79,6 +80,8 @@ public class TileController : MonoBehaviour
                     {
                         found = true;
                         lowerSlot.addTile(upperSlot.tile);
+                        lowerSlot.tile.dropDown(j * .1f);
+                        // lowerSlot.tile.resetPosition();
                         upperSlot.tile = null;
                         break;
                     }
@@ -86,12 +89,24 @@ public class TileController : MonoBehaviour
 
                 if (!found)
                 {
-                    Tile tile = _tilePool.get<Tile>();
-                    tile.name = "new tile";
-                    lowerSlot.addTile(tile);
+                    Tile tile = spawnTile(lowerSlot);
+                    tile.dropFromAbove(lowerSlot.y * .1f);
                 }
             }
         }
+    }
+
+    private Tile spawnTile(Slot slot)
+    {
+        
+        int type = _currentConfig.getRandomType();
+        Color color = _currentConfig.getColorOfType(type);
+
+        Tile tile = _tilePool.get<Tile>();
+        tile.setUp(slot, _tilePool);
+        tile.setType(type, color);
+        slot.addTile(tile);
+        return tile;
     }
     
     

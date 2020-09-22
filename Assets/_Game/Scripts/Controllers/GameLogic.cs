@@ -22,7 +22,6 @@ public class GameLogic : MonoBehaviour
         {
             Slot slot = anchor.slots[i];
             temp.Add(slot.tile);
-            slot.tile.recycle();
             slot.tile = null;
         }
         OnTileDestroyed?.Invoke(temp);

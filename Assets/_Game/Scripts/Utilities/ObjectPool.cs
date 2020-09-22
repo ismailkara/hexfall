@@ -38,6 +38,7 @@ public class ObjectPool
         }
         else
         {
+
             result = GameObject.Instantiate(template);
         }
 

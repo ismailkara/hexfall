@@ -18,7 +18,19 @@ public class Slot : MonoBehaviour
 
     public void addTile(Tile t)
     {
+        
         tile = t;
+        tile.slot = this;
         tile.transform.SetParent(transform);
+    }
+
+    void removeTile()
+    {
+        if (tile == null)
+        {
+            return;
+        }
+        tile.slot = null;
+        tile = null;
     }
 }
