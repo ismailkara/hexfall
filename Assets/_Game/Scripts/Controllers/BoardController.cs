@@ -64,7 +64,7 @@ public class BoardController : MonoBehaviour
         {
             for (int j = 0; j < currentConfig.boardHeight; j++)
             {
-                Slot slot = spawnTile(i, j);
+                Slot slot = spawnSlot(i, j);
                 _board[i, j] = slot;
             }
         }
@@ -157,7 +157,7 @@ public class BoardController : MonoBehaviour
         }
     }
 
-    Slot spawnTile(int i, int j)
+    Slot spawnSlot(int i, int j)
     {
         Slot temp = _slotPool.get<Slot>();
         temp.init(i, j);

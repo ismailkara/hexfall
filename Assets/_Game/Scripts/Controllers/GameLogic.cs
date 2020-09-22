@@ -7,6 +7,7 @@ public class GameLogic : MonoBehaviour
 
     private Slot[,] _slots;
     private ObjectPool _tilePool;
+    private GameConfig _currentConfig;
     private void Awake()
     {
         Instance = this;
@@ -21,6 +22,7 @@ public class GameLogic : MonoBehaviour
 
     void subscribeEvents()
     {
+        GameController.OnNewGame += handleNewGame;
         BoardController.OnBoardReady += handleBoardReady;
     }
 
@@ -30,6 +32,11 @@ public class GameLogic : MonoBehaviour
     {
         _slots = slots;
         fillBoard();
+    }
+
+    void handleNewGame(GameConfig config)
+    {
+        _currentConfig = config;
     }
 
     #endregion

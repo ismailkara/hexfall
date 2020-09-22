@@ -8,7 +8,7 @@ public class Tile : MonoBehaviour
     [SerializeField] private Image _faceImage;
     
 
-    public void init()
+    public void setUp()
     {
         
     }
