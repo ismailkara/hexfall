@@ -70,8 +70,9 @@ public class Anchor : MonoBehaviour
         return result;
     }
 
-    public void rotate(int direction)
+    public void rotate(int direction, int index)
     {
+        InputController.Instance.disableInput();
         transform.SetAsLastSibling();
         foreach (var slot in slots)
         {
@@ -89,8 +90,24 @@ public class Anchor : MonoBehaviour
                 slot.tile.transform.SetParent(_slotHolder);
             }
             
-            GameLogic.Instance.calculateGoal(slots);
-
+            bool match = GameLogic.Instance.calculateGoal(slots);
+            
+            index++;
+            if (!match)
+            {
+                if (index < 3)
+                {
+                    Moves.instance.executeWithDelay(() =>
+                    {
+                        rotate(direction, index);
+                        
+                    }, .1f);
+                }
+                else
+                {
+                    InputController.Instance.enableInput();
+                }
+            }
         };
         
         

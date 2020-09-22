@@ -27,7 +27,7 @@ public class GameLogic : MonoBehaviour
 
         if (_selected != null)
         {
-            _selected.rotate(1);
+            _selected.rotate(1, 0);
         }
         
         
@@ -37,7 +37,7 @@ public class GameLogic : MonoBehaviour
     {
         if (_selected != null)
         {
-            _selected.rotate(-1);
+            _selected.rotate(-1, 0);
         }
     }
 
@@ -45,23 +45,23 @@ public class GameLogic : MonoBehaviour
     
     public void anchorSelected(Anchor anchor)
     {
-        // if (_selected != null)
-        // {
-        //     _selected.deselect();
-        // }
-        // _selected = anchor;
-        // _selected.select();
-        
-        List<Slot> temp = new List<Slot>();
-        for (int i = 0; i < anchor.slots.Length; i++)
+        if (_selected != null)
         {
-            Slot slot = anchor.slots[i];
-            temp.Add(slot);
+            _selected.deselect();
         }
-        OnTileDestroyed?.Invoke(temp);
+        _selected = anchor;
+        _selected.select();
+        
+        // List<Slot> temp = new List<Slot>();
+        // for (int i = 0; i < anchor.slots.Length; i++)
+        // {
+        //     Slot slot = anchor.slots[i];
+        //     temp.Add(slot);
+        // }
+        // OnTileDestroyed?.Invoke(temp);
     }
 
-    public void calculateGoal(Slot[] slots)
+    public bool calculateGoal(Slot[] slots)
     {
         List<Slot> destroySlots = new List<Slot>();
 
@@ -78,7 +78,10 @@ public class GameLogic : MonoBehaviour
         {
             _selected = null;        
             OnTileDestroyed?.Invoke(destroySlots);
+            return true;
         }
+
+        return false;
     }
 
     List<Slot> calculateGoal(Slot slot)

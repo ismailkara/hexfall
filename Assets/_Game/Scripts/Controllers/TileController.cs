@@ -102,24 +102,6 @@ public class TileController : MonoBehaviour
         }
     }
 
-    void lowerTiles(Slot startSlot)
-    {
-        Debug.Log("lower tile");
-        int boardHeight = _board.GetLength(1);
-        
-        for (int i = startSlot.y; i < boardHeight - 1; i++)
-        {
-            Slot lowerSlot = _board[startSlot.x, i];
-            Slot higherSlot = _board[startSlot.x, i + 1];
-            if (lowerSlot.tile == null)
-            {
-                lowerSlot.addTile(higherSlot.tile);
-                higherSlot.tile = null;
-                Debug.Log(lowerSlot.name);
-                if(lowerSlot == null) lowerSlot.tile.resetPosition();
-            }
-        }
-    }
 
     private Tile spawnTile(Slot slot)
     {
