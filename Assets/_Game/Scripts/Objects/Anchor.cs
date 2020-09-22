@@ -75,20 +75,18 @@ public class Anchor : MonoBehaviour
         transform.SetAsLastSibling();
         foreach (var slot in slots)
         {
-            slot.transform.SetParent(transform);
+            slot.tile.transform.SetParent(transform);
         }
         Vector3 eulerAngles = transform.localRotation.eulerAngles;
         Move move = new Move(gameObject);
         move.obj.endRotation = Quaternion.Euler(new Vector3(eulerAngles.x, eulerAngles.y, eulerAngles.z + (direction * 120)));
         move.animTime = .5f;
 
-        Debug.Log(_slotHolder == null);
         move.callback += () =>
         {
             foreach (var slot in slots)
             {
-                slot.transform.SetParent(_slotHolder);
-                Debug.Log(slot.transform.parent.name);
+                slot.tile.transform.SetParent(_slotHolder);
             }
 
         };
