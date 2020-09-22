@@ -105,7 +105,10 @@ public class BoardController : MonoBehaviour
                     
                     anchor.rect.anchoredPosition = anchorPosition;
                     
+                    anchor.init(slotHolder);
+                    
                     _anchors.Add(anchor);
+
                 }
                 
             }
@@ -122,6 +125,8 @@ public class BoardController : MonoBehaviour
                     anchor.rect.anchoredPosition = anchorPosition;
                     
                     _anchors.Add(anchor);
+
+                    anchor.init(slotHolder);
 
                 }
 

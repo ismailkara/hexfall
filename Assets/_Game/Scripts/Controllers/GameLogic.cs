@@ -24,7 +24,6 @@ public class GameLogic : MonoBehaviour
 
     void handleDragUp()
     {
-        Debug.Log("drag up");
 
         if (_selected != null)
         {

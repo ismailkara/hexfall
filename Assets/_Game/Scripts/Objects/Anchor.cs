@@ -7,6 +7,8 @@ public class Anchor : MonoBehaviour
     
     public Slot[] slots;
 
+    private Transform _slotHolder;
+
     public void onClick()
     {
         // foreach (var slot in slots)
@@ -14,6 +16,11 @@ public class Anchor : MonoBehaviour
         //     slot.transform.localScale = .9f * Vector3.one;
         // }
         GameLogic.Instance.anchorSelected(this);
+    }
+
+    public void init(Transform holder)
+    {
+        _slotHolder = holder;
     }
     public void addSlots(List<Slot> tiles)
     {
@@ -65,6 +72,7 @@ public class Anchor : MonoBehaviour
 
     public void rotate(int direction)
     {
+        transform.SetAsLastSibling();
         foreach (var slot in slots)
         {
             slot.transform.SetParent(transform);
@@ -73,7 +81,38 @@ public class Anchor : MonoBehaviour
         Move move = new Move(gameObject);
         move.obj.endRotation = Quaternion.Euler(new Vector3(eulerAngles.x, eulerAngles.y, eulerAngles.z + (direction * 120)));
         move.animTime = .5f;
+
+        Debug.Log(_slotHolder == null);
+        move.callback += () =>
+        {
+            foreach (var slot in slots)
+            {
+                slot.transform.SetParent(_slotHolder);
+                Debug.Log(slot.transform.parent.name);
+            }
+
+        };
+        
+        
+        rotateTilesLogic(direction);
+        
         move.run();
+
+    }
+
+    void rotateTilesLogic(int direction)
+    {
+        List<Tile> temp = new List<Tile>();
+        for (int i = 0; i < slots.Length; i++)
+        {
+            temp.Add(slots[i].tile);
+        }
+
+        for (int i = 0; i < slots.Length; i++)
+        {
+            int index = (i + 3 - direction) % 3;
+            slots[i].tile = temp[index];
+        }
     }
 
     public void select()
