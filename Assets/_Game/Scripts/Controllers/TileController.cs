@@ -30,16 +30,26 @@ public class TileController : MonoBehaviour
 
     #region event handlers
 
-    void handleTileDestroyed(List<Tile> tiles)
+    void handleTileDestroyed(List<Slot> slots)
     {
-        int index = 0;
-        
-        foreach (var tile in tiles)
+        for (var index = 0; index < slots.Count; index++)
         {
-            index++;
-            fillEmptySlot(tile.slot);
-            tile.recycle();
+            var slot = slots[index];
+            slot.tile.recycle();
+            slot.tile = null;
+            // tile.slot = null;
         }
+
+        for (var index = 0; index < slots.Count; index++)
+        {
+            var slot = slots[index];
+            fillEmptySlot(slot);
+        }
+        Moves.instance.executeWithDelay(() =>
+        {
+            
+        });
+
     }
     void handleBoardReady(GameConfig config, Slot[,] slots)
     {
@@ -64,17 +74,19 @@ public class TileController : MonoBehaviour
 
     void fillEmptySlot(Slot slot)
     {
+        slot.tile = null;
         int boardHeight = _board.GetLength(1);
+        int lowIndex, highIndex;
         for (int i = 0; i < boardHeight; i++)
         {
+            lowIndex = i;
             Slot lowerSlot = _board[slot.x, i];
             if (lowerSlot.tile == null)
             {
-                
-                
                 bool found = false;
                 for (int j = i + 1; j < boardHeight; j++)
                 {
+                    highIndex = j;
                     Slot upperSlot = _board[slot.x, j];
                     if (upperSlot.tile != null)
                     {
@@ -90,7 +102,12 @@ public class TileController : MonoBehaviour
                 if (!found)
                 {
                     Tile tile = spawnTile(lowerSlot);
-                    tile.dropFromAbove(lowerSlot.y * .1f);
+                    tile.dropFromAbove(lowerSlot.y * 1.1f);
+                    break;
+                }
+                else
+                {
+                    
                 }
             }
         }

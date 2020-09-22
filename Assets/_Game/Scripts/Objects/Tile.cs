@@ -8,7 +8,7 @@ public class Tile : MonoBehaviour
     public Slot slot;// { get; private set; }
     public int type { get; private set; }
 
-    private const float DropTime = .2f;
+    private const float DropTime = 1.5f;
     private const float DropDistance = 600f;
 
     [SerializeField] private GameObject select;
@@ -32,6 +32,7 @@ public class Tile : MonoBehaviour
 
     public void recycle()
     {
+        setSelectActive(false);
         _tilePool.recycle(this);
     }
 

@@ -7,7 +7,7 @@ public class GameLogic : MonoBehaviour
 {
     public static GameLogic Instance;
     
-    public static Action<List<Tile>> OnTileDestroyed;
+    public static Action<List<Slot>> OnTileDestroyed;
 
     private Anchor _selected;
 
@@ -63,28 +63,28 @@ public class GameLogic : MonoBehaviour
 
     public void calculateGoal(Slot[] slots)
     {
-        List<Tile> destroyTiles = new List<Tile>();
+        List<Slot> destroySlots = new List<Slot>();
 
         foreach (var slot in slots)
         {
-            List<Tile> temp = calculateGoal(slot);
+            List<Slot> temp = calculateGoal(slot);
             foreach (var tile in temp)
             {
-                if(!destroyTiles.Contains(tile)) destroyTiles.Add(tile);
+                if(!destroySlots.Contains(tile)) destroySlots.Add(tile);
             }
         }
-        OnTileDestroyed?.Invoke(destroyTiles);
+        OnTileDestroyed?.Invoke(destroySlots);
     }
 
-    List<Tile> calculateGoal(Slot slot)
+    List<Slot> calculateGoal(Slot slot)
     {
-        List<Tile> result = new List<Tile>();
-        result.Add(slot.tile);
+        List<Slot> result = new List<Slot>();
+        result.Add(slot);
         foreach (var other in slot.neighbors)
         {
             if (other.tile.type == slot.tile.type)
             {
-                result.Add(other.tile);
+                result.Add(other);
             }
         }
 
@@ -98,12 +98,12 @@ public class GameLogic : MonoBehaviour
 
     public void slotClicked(Slot s)
     {
-        List<Tile> temp = new List<Tile>();
-        temp.Add(s.tile);
+        List<Slot> temp = new List<Slot>();
+        temp.Add(s);
         for (int i = 0; i < s.neighbors.Count; i++)
         {
             Slot slot = s.neighbors[i];
-            temp.Add(slot.tile);
+            temp.Add(slot);
             slot.tile = null;
         }
         OnTileDestroyed?.Invoke(temp);
