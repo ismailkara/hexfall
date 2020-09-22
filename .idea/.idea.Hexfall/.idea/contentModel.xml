@@ -10,6 +10,7 @@
               <e p="BoardController.cs" t="Include" />
               <e p="GameController.cs" t="Include" />
               <e p="GameLogic.cs" t="Include" />
+              <e p="InputController.cs" t="Include" />
               <e p="TileController.cs" t="Include" />
             </e>
             <e p="Data" t="Include">
