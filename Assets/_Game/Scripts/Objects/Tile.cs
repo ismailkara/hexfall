@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,7 +38,7 @@ public class Tile : MonoBehaviour
         _tilePool.recycle(this);
     }
 
-    public void dropFromAbove(float delay)
+    public void dropFromAbove(float delay, Action callback)
     {
         
         rect.offsetMax = Vector2.zero;
@@ -53,9 +54,14 @@ public class Tile : MonoBehaviour
 
         drop.obj.endLocalPosition = Vector3.zero;
 
+        drop.callback += () =>
+        {
+            callback?.Invoke();
+        };
+        
         drop.run();
     }
-    public void dropDown(float delay)
+    public void dropDown(float delay, Action callback)
     {
         Move drop = new Move(gameObject);
         drop.moveType = MoveType.LOCAL;
@@ -65,6 +71,10 @@ public class Tile : MonoBehaviour
         
         drop.obj.endLocalPosition = Vector3.zero;
 
+        drop.callback += () =>
+        {
+            callback?.Invoke();
+        };
         drop.run();
     }
     public void resetPosition()

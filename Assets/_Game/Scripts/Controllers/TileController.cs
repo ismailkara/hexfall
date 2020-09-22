@@ -10,6 +10,9 @@ public class TileController : MonoBehaviour
     private Slot[,] _board;
     private ObjectPool _tilePool;
     private GameConfig _currentConfig;
+
+    private int _movingTileCount = 0;
+    private List<Slot> _movingTiles;
     private void Awake()
     {
         Instance = this;
@@ -18,8 +21,10 @@ public class TileController : MonoBehaviour
 
     void init()
     {
+        
         subscribeEvents();
         _tilePool = new ObjectPool(tilePrefab);
+        _movingTiles = new List<Slot>();
     }
 
     void subscribeEvents()
@@ -87,7 +92,9 @@ public class TileController : MonoBehaviour
                     {
                         lowerSlot.addTile(higherSlot.tile);
                         higherSlot.tile = null;
-                        lowerSlot.tile.dropDown( i * .1f);
+                        _movingTileCount++;
+                        _movingTiles.Add(lowerSlot);
+                        lowerSlot.tile.dropDown( i * .1f, tileMoveEndCallback);
                         found = true;
                         break;
                     }
@@ -96,9 +103,20 @@ public class TileController : MonoBehaviour
                 if (!found)
                 {
                     Tile tile = spawnTile(lowerSlot);
-                    tile.dropFromAbove(i * .1f);
+                    _movingTileCount++;
+                    _movingTiles.Add(lowerSlot);
+                    tile.dropFromAbove(i * .1f, tileMoveEndCallback);
                 }
             }
+        }
+    }
+
+    void tileMoveEndCallback()
+    {
+        _movingTileCount--;
+        if (_movingTileCount == 0)
+        {
+            GameLogic.Instance.calculateGoal(_movingTiles);
         }
     }
 

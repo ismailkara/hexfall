@@ -61,6 +61,17 @@ public class GameLogic : MonoBehaviour
         // OnTileDestroyed?.Invoke(temp);
     }
 
+    public bool calculateGoal(List<Slot> slots)
+    {
+        Slot[] temp = new Slot[slots.Count];
+
+        for (int i = 0; i < slots.Count; i++)
+        {
+            temp[i] = slots[i];
+        }
+
+        return calculateGoal(temp);
+    }
     public bool calculateGoal(Slot[] slots)
     {
         List<Slot> destroySlots = new List<Slot>();
