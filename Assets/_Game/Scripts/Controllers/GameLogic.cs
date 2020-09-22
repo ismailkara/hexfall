@@ -61,6 +61,41 @@ public class GameLogic : MonoBehaviour
         // OnTileDestroyed?.Invoke(temp);
     }
 
+    public void calculateGoal(Slot[] slots)
+    {
+        List<Tile> destroyTiles = new List<Tile>();
+
+        foreach (var slot in slots)
+        {
+            List<Tile> temp = calculateGoal(slot);
+            foreach (var tile in temp)
+            {
+                if(!destroyTiles.Contains(tile)) destroyTiles.Add(tile);
+            }
+        }
+        OnTileDestroyed?.Invoke(destroyTiles);
+    }
+
+    List<Tile> calculateGoal(Slot slot)
+    {
+        List<Tile> result = new List<Tile>();
+        result.Add(slot.tile);
+        foreach (var other in slot.neighbors)
+        {
+            if (other.tile.type == slot.tile.type)
+            {
+                result.Add(other.tile);
+            }
+        }
+
+        if (result.Count < 3)
+        {
+            result.Clear();
+        }
+
+        return result;
+    }
+
     public void slotClicked(Slot s)
     {
         List<Tile> temp = new List<Tile>();

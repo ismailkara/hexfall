@@ -88,6 +88,8 @@ public class Anchor : MonoBehaviour
             {
                 slot.tile.transform.SetParent(_slotHolder);
             }
+            
+            GameLogic.Instance.calculateGoal(slots);
 
         };
         
