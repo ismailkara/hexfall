@@ -79,6 +79,7 @@ public class TileController : MonoBehaviour
 
             if (lowerSlot.tile == null)
             {
+                bool found = false;
                 for (int j = i + 1; j < boardHeight; j++)
                 {
                     Slot higherSlot = _board[horizontalIndex, j];
@@ -87,8 +88,15 @@ public class TileController : MonoBehaviour
                         lowerSlot.addTile(higherSlot.tile);
                         higherSlot.tile = null;
                         lowerSlot.tile.dropDown( i * .1f);
+                        found = true;
                         break;
                     }
+                }
+
+                if (!found)
+                {
+                    Tile tile = spawnTile(lowerSlot);
+                    tile.dropFromAbove(i * .1f);
                 }
             }
         }

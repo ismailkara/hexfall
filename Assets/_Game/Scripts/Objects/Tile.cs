@@ -8,8 +8,8 @@ public class Tile : MonoBehaviour
     public Slot slot;// { get; private set; }
     public int type { get; private set; }
 
-    private const float DropTime = 1.5f;
-    private const float DropDistance = 600f;
+    private const float DropTime = .4f;
+    private const float DropDistance = 800f;
 
     [SerializeField] private GameObject select;
     [SerializeField] private Image _faceImage;
@@ -39,6 +39,7 @@ public class Tile : MonoBehaviour
 
     public void dropFromAbove(float delay)
     {
+        
         rect.offsetMax = Vector2.zero;
         rect.offsetMin = Vector2.zero;
         transform.localPosition = Vector3.up * DropDistance;
@@ -46,7 +47,7 @@ public class Tile : MonoBehaviour
         Move drop = new Move(gameObject);
         drop.moveType = MoveType.LOCAL;
 
-        drop.animTime = DropTime * 1.7f;
+        drop.animTime = DropTime * 1.2f;
         drop.delay = delay;
         
 
