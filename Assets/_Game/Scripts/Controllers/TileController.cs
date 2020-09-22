@@ -37,6 +37,12 @@ public class TileController : MonoBehaviour
             Slot slot = slots[index];
             slot.tile.recycle();
             slot.tile = null;
+
+        }
+
+        for (var index = 0; index < slots.Count; index++)
+        {
+            Slot slot = slots[index];
             fillEmptySlot(slot);
 
         }
@@ -64,6 +70,7 @@ public class TileController : MonoBehaviour
 
     void fillEmptySlot(Slot slot)
     {
+        // return;
         int boardHeight = _board.GetLength(1);
         int horizontalIndex = slot.x;
         for (int i = slot.y; i < boardHeight; i++)
@@ -75,19 +82,16 @@ public class TileController : MonoBehaviour
                 for (int j = i + 1; j < boardHeight; j++)
                 {
                     Slot higherSlot = _board[horizontalIndex, j];
-                    Debug.Log(lowerSlot.name + "  " + higherSlot.name);
                     if (higherSlot.tile != null)
                     {
                         lowerSlot.addTile(higherSlot.tile);
                         higherSlot.tile = null;
-                        lowerSlot.tile.resetPosition();
+                        lowerSlot.tile.dropDown( i * .1f);
                         break;
                     }
                 }
-                
             }
         }
-
     }
 
     void lowerTiles(Slot startSlot)
