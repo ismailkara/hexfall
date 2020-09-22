@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Slot : MonoBehaviour
 {
@@ -10,10 +11,18 @@ public class Slot : MonoBehaviour
     public int x { get; private set; }
     public int y { get; private set; }
 
+    public List<Slot> neighbors { get; private set; }
+
     public void init(int i, int j)
     {
         x = i;
         y = j;
+        neighbors = new List<Slot>();
+    }
+
+    public void addNeighbor(Slot neighbor)
+    {
+        neighbors.Add(neighbor);
     }
 
     public void addTile(Tile t)

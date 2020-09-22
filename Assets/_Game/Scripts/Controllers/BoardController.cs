@@ -51,6 +51,7 @@ public class BoardController : MonoBehaviour
         buildBoard();
         buildAnchors();
         registerSlotsToAnchors();
+        registerNeighbors();
         OnBoardReady?.Invoke(_currentConfig, _board);
     }
 
@@ -154,6 +155,29 @@ public class BoardController : MonoBehaviour
                 }
             }
             anchor.addSlots(temp);
+        }
+    }
+
+    void registerNeighbors()
+    {
+        float distanceTreshold = _tileSize.x * Mathf.Sqrt(3) * .5f * 1.1f; // kom/u iki objenin merkezleri arasındaki uzaklık, 1.1 yine float ları karsılastırmak icin
+        distanceTreshold *= distanceTreshold;
+        
+        foreach (var center in _board)
+        {
+            foreach (var other in _board)
+            {
+                if (other == center)
+                {
+                    continue;
+                }
+
+                float distance = (other.rect.anchoredPosition - center.rect.anchoredPosition).sqrMagnitude;
+                if (distance < distanceTreshold)
+                {
+                    center.addNeighbor(other);
+                }
+            }
         }
     }
 

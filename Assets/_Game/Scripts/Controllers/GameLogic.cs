@@ -26,4 +26,18 @@ public class GameLogic : MonoBehaviour
         }
         OnTileDestroyed?.Invoke(temp);
     }
+
+    public void slotClicked(Slot s)
+    {
+        List<Tile> temp = new List<Tile>();
+        temp.Add(s.tile);
+        for (int i = 0; i < s.neighbors.Count; i++)
+        {
+            Slot slot = s.neighbors[i];
+            temp.Add(slot.tile);
+            slot.tile = null;
+        }
+        OnTileDestroyed?.Invoke(temp);
+
+    }
 }

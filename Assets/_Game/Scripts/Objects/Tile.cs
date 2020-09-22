@@ -70,4 +70,9 @@ public class Tile : MonoBehaviour
         rect.offsetMax = Vector2.zero;
         rect.offsetMin = Vector2.zero;
     }
+
+    public void onClick()
+    {
+        // GameLogic.Instance.slotClicked(slot);
+    }
 }
