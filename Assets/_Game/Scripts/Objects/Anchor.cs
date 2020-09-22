@@ -75,4 +75,20 @@ public class Anchor : MonoBehaviour
         move.animTime = .5f;
         move.run();
     }
+
+    public void select()
+    {
+        foreach (var slot in slots)
+        {
+            slot.tile.setSelectActive(true);
+        }
+    }
+
+    public void deselect()
+    {
+        foreach (var slot in slots)
+        {
+            slot.tile.setSelectActive(false);
+        }
+    }
 }

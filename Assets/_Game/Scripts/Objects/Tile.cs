@@ -10,7 +10,8 @@ public class Tile : MonoBehaviour
 
     private const float DropTime = .2f;
     private const float DropDistance = 600f;
-    
+
+    [SerializeField] private GameObject select;
     [SerializeField] private Image _faceImage;
 
     private ObjectPool _tilePool;
@@ -71,6 +72,10 @@ public class Tile : MonoBehaviour
         rect.offsetMin = Vector2.zero;
     }
 
+    public void setSelectActive(bool active)
+    {
+        @select.gameObject.SetActive(active);
+    }
     public void onClick()
     {
         // GameLogic.Instance.slotClicked(slot);

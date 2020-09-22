@@ -36,7 +36,6 @@ public class GameLogic : MonoBehaviour
 
     void handleDragDown()
     {
-        Debug.Log("drag down");
         if (_selected != null)
         {
             _selected.rotate(-1);
@@ -47,8 +46,12 @@ public class GameLogic : MonoBehaviour
     
     public void anchorSelected(Anchor anchor)
     {
+        if (_selected != null)
+        {
+            _selected.deselect();
+        }
         _selected = anchor;
-        Debug.Log("anchor selected");
+        _selected.select();
         // List<Tile> temp = new List<Tile>();
         // for (int i = 0; i < anchor.slots.Length; i++)
         // {

@@ -106,6 +106,7 @@ public class TileController : MonoBehaviour
         tile.setUp(slot, _tilePool);
         tile.setType(type, color);
         slot.addTile(tile);
+        tile.transform.localScale = Vector3.one;
         return tile;
     }
     

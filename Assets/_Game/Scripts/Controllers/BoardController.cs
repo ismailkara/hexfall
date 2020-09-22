@@ -186,6 +186,7 @@ public class BoardController : MonoBehaviour
         Slot temp = _slotPool.get<Slot>();
         temp.init(i, j);
         temp.transform.SetParent(slotHolder);
+        temp.transform.localScale = Vector3.one;
         
         temp.rect.sizeDelta = _tileSize;
 
