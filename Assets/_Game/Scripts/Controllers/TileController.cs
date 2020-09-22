@@ -59,6 +59,7 @@ public class TileController : MonoBehaviour
             tile.setUp(slot, _tilePool);
             tile.setType(type, color);
             slot.addTile(tile);
+            tile.resetPosition();
         }
     }
 
@@ -85,7 +86,6 @@ public class TileController : MonoBehaviour
 
                 if (!found)
                 {
-                    Debug.Log("new slot");
                     Tile tile = _tilePool.get<Tile>();
                     tile.name = "new tile";
                     lowerSlot.addTile(tile);

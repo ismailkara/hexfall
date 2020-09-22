@@ -30,4 +30,12 @@ public class Tile : MonoBehaviour
     {
         _tilePool.recycle(this);
     }
+
+    public void resetPosition()
+    {
+        
+        transform.localPosition = Vector3.zero;
+        rect.offsetMax = Vector2.zero;
+        rect.offsetMin = Vector2.zero;
+    }
 }
