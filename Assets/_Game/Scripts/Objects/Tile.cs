@@ -32,6 +32,7 @@ public class Tile : MonoBehaviour
 
     public void recycle()
     {
+        // Destroy(gameObject);
         setSelectActive(false);
         _tilePool.recycle(this);
     }

@@ -45,20 +45,20 @@ public class GameLogic : MonoBehaviour
     
     public void anchorSelected(Anchor anchor)
     {
-        if (_selected != null)
-        {
-            _selected.deselect();
-        }
-        _selected = anchor;
-        _selected.select();
-        // List<Tile> temp = new List<Tile>();
-        // for (int i = 0; i < anchor.slots.Length; i++)
+        // if (_selected != null)
         // {
-        //     Slot slot = anchor.slots[i];
-        //     temp.Add(slot.tile);
-        //     slot.tile = null;
+        //     _selected.deselect();
         // }
-        // OnTileDestroyed?.Invoke(temp);
+        // _selected = anchor;
+        // _selected.select();
+        
+        List<Slot> temp = new List<Slot>();
+        for (int i = 0; i < anchor.slots.Length; i++)
+        {
+            Slot slot = anchor.slots[i];
+            temp.Add(slot);
+        }
+        OnTileDestroyed?.Invoke(temp);
     }
 
     public void calculateGoal(Slot[] slots)
@@ -73,7 +73,12 @@ public class GameLogic : MonoBehaviour
                 if(!destroySlots.Contains(tile)) destroySlots.Add(tile);
             }
         }
-        OnTileDestroyed?.Invoke(destroySlots);
+
+        if (destroySlots.Count != 0)
+        {
+            _selected = null;        
+            OnTileDestroyed?.Invoke(destroySlots);
+        }
     }
 
     List<Slot> calculateGoal(Slot slot)

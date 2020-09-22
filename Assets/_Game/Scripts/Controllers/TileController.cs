@@ -34,22 +34,12 @@ public class TileController : MonoBehaviour
     {
         for (var index = 0; index < slots.Count; index++)
         {
-            var slot = slots[index];
+            Slot slot = slots[index];
             slot.tile.recycle();
             slot.tile = null;
-            // tile.slot = null;
-        }
-
-        for (var index = 0; index < slots.Count; index++)
-        {
-            var slot = slots[index];
             fillEmptySlot(slot);
-        }
-        Moves.instance.executeWithDelay(() =>
-        {
-            
-        });
 
+        }
     }
     void handleBoardReady(GameConfig config, Slot[,] slots)
     {
@@ -74,41 +64,47 @@ public class TileController : MonoBehaviour
 
     void fillEmptySlot(Slot slot)
     {
-        slot.tile = null;
         int boardHeight = _board.GetLength(1);
-        int lowIndex, highIndex;
-        for (int i = 0; i < boardHeight; i++)
+        int horizontalIndex = slot.x;
+        for (int i = slot.y; i < boardHeight; i++)
         {
-            lowIndex = i;
-            Slot lowerSlot = _board[slot.x, i];
+            Slot lowerSlot = _board[horizontalIndex, i];
+
             if (lowerSlot.tile == null)
             {
-                bool found = false;
                 for (int j = i + 1; j < boardHeight; j++)
                 {
-                    highIndex = j;
-                    Slot upperSlot = _board[slot.x, j];
-                    if (upperSlot.tile != null)
+                    Slot higherSlot = _board[horizontalIndex, j];
+                    Debug.Log(lowerSlot.name + "  " + higherSlot.name);
+                    if (higherSlot.tile != null)
                     {
-                        found = true;
-                        lowerSlot.addTile(upperSlot.tile);
-                        lowerSlot.tile.dropDown(j * .1f);
-                        // lowerSlot.tile.resetPosition();
-                        upperSlot.tile = null;
+                        lowerSlot.addTile(higherSlot.tile);
+                        higherSlot.tile = null;
+                        lowerSlot.tile.resetPosition();
                         break;
                     }
                 }
+                
+            }
+        }
 
-                if (!found)
-                {
-                    Tile tile = spawnTile(lowerSlot);
-                    tile.dropFromAbove(lowerSlot.y * 1.1f);
-                    break;
-                }
-                else
-                {
-                    
-                }
+    }
+
+    void lowerTiles(Slot startSlot)
+    {
+        Debug.Log("lower tile");
+        int boardHeight = _board.GetLength(1);
+        
+        for (int i = startSlot.y; i < boardHeight - 1; i++)
+        {
+            Slot lowerSlot = _board[startSlot.x, i];
+            Slot higherSlot = _board[startSlot.x, i + 1];
+            if (lowerSlot.tile == null)
+            {
+                lowerSlot.addTile(higherSlot.tile);
+                higherSlot.tile = null;
+                Debug.Log(lowerSlot.name);
+                if(lowerSlot == null) lowerSlot.tile.resetPosition();
             }
         }
     }

@@ -66,6 +66,7 @@ public class BoardController : MonoBehaviour
             for (int j = 0; j < _currentConfig.boardHeight; j++)
             {
                 Slot slot = spawnSlot(i, j);
+                slot.name = i + " " + j;
                 _board[i, j] = slot;
             }
         }
