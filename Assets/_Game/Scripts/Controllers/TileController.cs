@@ -12,6 +12,8 @@ public class TileController : MonoBehaviour
 
     private int _movingTileCount = 0;
     private List<Slot> _movingTiles;
+
+    private Dice _dice;
     private void Awake()
     {
         Instance = this;
@@ -53,9 +55,15 @@ public class TileController : MonoBehaviour
     }
     void handleBoardReady(GameConfig config, Slot[,] slots)
     {
+        
+        _dice = new Dice();
+        _dice.add(TileType.Normal, 90);
+        _dice.add(TileType.Starred, 10);
+        
         _currentConfig = config;
         _board = slots;
         fillBoard();
+        
     }
 
   
@@ -142,9 +150,13 @@ public class TileController : MonoBehaviour
         return tile;
     }
 
+    public void enableBomb()
+    {
+        _dice.add(TileType.Bomb, 2);
+    }
 
     TileType getRandomType()
     {
-        return (TileType) Random.Range(0, 3);
+        return _dice.roll<TileType>();
     }
 }

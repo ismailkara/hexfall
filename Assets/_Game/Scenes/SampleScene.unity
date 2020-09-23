@@ -930,6 +930,7 @@ MonoBehaviour:
   scoreText: {fileID: 391251680}
   miniScorePrefab: {fileID: 1126065482187831350, guid: 7efdd187b94e741c5b4d99a20a3a040d,
     type: 3}
+  pointHolder: {fileID: 1707523598}
 --- !u!1 &1707523597
 GameObject:
   m_ObjectHideFlags: 0

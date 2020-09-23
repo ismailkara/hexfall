@@ -49,8 +49,14 @@ public class ScoreBoard : MonoBehaviour
             spawnPoint(slot.tile);
         }
 
+        if (score < 1000 && score + gainedScore >= 1000)
+        {
+            TileController.Instance.enableBomb();
+        }
+
         score += gainedScore;
         updateScoreBoard();
+        
     }
     
 
