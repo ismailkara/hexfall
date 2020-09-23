@@ -89,6 +89,7 @@ public class InputController : MonoBehaviour
 
     public void disableInput()
     {
+
         _inputEnabled = false;
     }
 

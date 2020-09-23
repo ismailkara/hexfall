@@ -116,7 +116,15 @@ public class TileController : MonoBehaviour
         _movingTileCount--;
         if (_movingTileCount == 0)
         {
-            GameLogic.Instance.calculateGoal(_movingTiles);
+            Moves.instance.executeWithDelay(() =>
+            {
+                bool goal = GameLogic.Instance.calculateGoal(_movingTiles);
+                if (!goal)
+                {
+                    InputController.Instance.enableInput();
+                }
+            }, .3f);
+            
         }
     }
 
