@@ -7,7 +7,8 @@ public class GameController : MonoBehaviour
     public static GameController Instance;
 
     public static Action<GameConfig> OnNewGame;
-
+    public static Action OnGameOver;
+    
     public GameConfig easy, hard;
 
     private void Start()
@@ -20,7 +21,8 @@ public class GameController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            gameOver();
+            newGame();
         }
     }
 #endif
@@ -28,5 +30,19 @@ public class GameController : MonoBehaviour
     void newGame()
     {
         OnNewGame?.Invoke(hard);
+    }
+
+    public void bombExploded()
+    {
+        
+    }
+
+    public void noMoreMoves()
+    {
+        
+    }
+    void gameOver()
+    {
+        OnGameOver?.Invoke();
     }
 }

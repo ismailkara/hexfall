@@ -12,6 +12,7 @@ public class TileController : MonoBehaviour
 
     private int _movingTileCount = 0;
     private List<Slot> _movingTiles;
+    private List<Tile> _tiles;
 
     private Dice _dice;
     private void Awake()
@@ -30,6 +31,7 @@ public class TileController : MonoBehaviour
 
     void subscribeEvents()
     {
+        GameController.OnGameOver += handleGameOver;
         GameLogic.OnTileDestroyed += handleTileDestroyed;
         BoardController.OnBoardReady += handleBoardReady;
     }
@@ -55,6 +57,7 @@ public class TileController : MonoBehaviour
     }
     void handleBoardReady(GameConfig config, Slot[,] slots)
     {
+        _tiles = new List<Tile>();
         
         _dice = new Dice();
         _dice.add(TileType.Normal, 90);
@@ -64,6 +67,14 @@ public class TileController : MonoBehaviour
         _board = slots;
         fillBoard();
         
+    }
+
+    void handleGameOver()
+    {
+        foreach (var tile in _tiles)
+        {
+            tile.recycle();
+        }
     }
 
   
@@ -147,6 +158,8 @@ public class TileController : MonoBehaviour
         tile.setType(type, color);
         slot.addTile(tile);
         tile.transform.localScale = Vector3.one;
+        
+        _tiles.Add(tile);
         return tile;
     }
 
@@ -159,4 +172,5 @@ public class TileController : MonoBehaviour
     {
         return _dice.roll<TileType>();
     }
+    
 }

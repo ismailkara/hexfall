@@ -55,15 +55,18 @@ public class BoardController : MonoBehaviour
         subscribeEvents();
     }
   
+    
 
     void subscribeEvents()
     {
         GameController.OnNewGame += handleNewGame;
+        GameController.OnGameOver += handleGameOver;
     }
     #region event handlers
 
     void handleNewGame(GameConfig config)
     {
+        Debug.Log("new game");
         _currentConfig = config;
         calculateCellSize();
         buildBoard();
@@ -72,6 +75,19 @@ public class BoardController : MonoBehaviour
         registerNeighbors();
         registerNeighborAnchors();
         OnBoardReady?.Invoke(_currentConfig, _board);
+    }
+
+    void handleGameOver()
+    {
+        foreach (var slot in _board)
+        {
+            recycle(slot);
+        }
+
+        foreach (var anchor in _anchors)
+        {
+            recycle(anchor);
+        }
     }
 
     #endregion
@@ -312,6 +328,16 @@ public class BoardController : MonoBehaviour
         
 
         return tileWidth;
+    }
+
+    void recycle(Anchor anchor)
+    {
+        _anchorPool.recycle(anchor);
+    }
+
+    void recycle(Slot slot)
+    {
+        _slotPool.recycle(slot);
     }
 
 
