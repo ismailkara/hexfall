@@ -41,7 +41,7 @@ public class BoardController : MonoBehaviour
             {
                 foreach (var slot in anchor.slots)
                 {
-                    Debug.Log(slot.tile.type);
+                    Debug.Log(slot.tile.color);
                 }
             }
         }

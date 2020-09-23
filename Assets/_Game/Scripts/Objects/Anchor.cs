@@ -116,6 +116,11 @@ public class Anchor : MonoBehaviour
                     InputController.Instance.enableInput();
                 }
             }
+            else
+            {
+                GameLogic.Instance.onMatch();
+                
+            }
         };
         
         

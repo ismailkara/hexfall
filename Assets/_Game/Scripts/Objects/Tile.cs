@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,30 +8,56 @@ public class Tile : MonoBehaviour
 {
     public RectTransform rect;
     public Slot slot;// { get; private set; }
-    public int type { get; private set; }
+    public int color { get; private set; }
+    public TileType type { get; private set; }
 
     private const float DropTime = .4f;
     private const float DropDistance = 800f;
 
-    [SerializeField] private GameObject select;
-    [SerializeField] private Image _faceImage;
+    [SerializeField] private GameObject select, star;
+    [SerializeField] private Image faceImage;
+    [SerializeField] private Text bombCount;
 
     private ObjectPool _tilePool;
-    
-    
+    private int _countDown;
 
-    public void setUp(Slot slot, ObjectPool pool)
+
+    private void Awake()
     {
+        GameLogic.OnMatch += onMatch;
+    }
+
+    public void setUp(Slot slot, ObjectPool pool, TileType t)
+    {
+        type = t;
+        
+        star.SetActive(type == TileType.Starred);
+        bombCount.gameObject.SetActive(type == TileType.Bomb);
+        
+        if (t == TileType.Bomb)
+        {
+            _countDown = 6;
+            updateBomb();
+        }
+        
         _tilePool = pool;
         this.slot = slot;
     }
 
     public void setType(int t, Color color)
     {
-        type = t;
-        _faceImage.color = color;
+        this.color = t;
+        faceImage.color = color;
     }
 
+    void onMatch()
+    {
+        if (type == TileType.Bomb)
+        {
+            _countDown--;
+            updateBomb();
+        }
+    }
     public void recycle()
     {
         // Destroy(gameObject);
@@ -93,4 +120,11 @@ public class Tile : MonoBehaviour
     {
         // GameLogic.Instance.slotClicked(slot);
     }
+
+    void updateBomb()
+    {
+        
+        bombCount.text = _countDown.ToString();
+    }
 }
+public enum TileType {Normal, Starred, Bomb}

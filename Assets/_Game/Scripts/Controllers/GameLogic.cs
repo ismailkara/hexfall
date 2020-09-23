@@ -9,6 +9,7 @@ public class GameLogic : MonoBehaviour
     public static GameLogic Instance;
     
     public static Action<List<Slot>> OnTileDestroyed;
+    public static Action OnMatch;
 
     private Anchor _selected;
 
@@ -69,9 +70,8 @@ public class GameLogic : MonoBehaviour
         List<Slot> destroySlots = new List<Slot>();
         foreach (var anchor in anchors)
         {
-            Debug.Log(anchor.slots[0].tile.type + "  " + anchor.slots[1].tile.type + "  " + anchor.slots[2].tile.type);
-            bool match = anchor.slots[0].tile.type == anchor.slots[1].tile.type;
-            match = match && anchor.slots[0].tile.type == anchor.slots[2].tile.type;
+            bool match = anchor.slots[0].tile.color == anchor.slots[1].tile.color;
+            match = match && anchor.slots[0].tile.color == anchor.slots[2].tile.color;
 
             if (match)
             {
@@ -117,7 +117,7 @@ public class GameLogic : MonoBehaviour
         result.Add(slot);
         foreach (var other in slot.neighbors)
         {
-            if (other.tile.type == slot.tile.type)
+            if (other.tile.color == slot.tile.color)
             {
                 result.Add(other);
             }
@@ -171,5 +171,10 @@ public class GameLogic : MonoBehaviour
         }
 
         return result;
+    }
+
+    public void onMatch()
+    {
+        OnMatch?.Invoke();
     }
 }

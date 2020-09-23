@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class TileController : MonoBehaviour
@@ -136,13 +135,16 @@ public class TileController : MonoBehaviour
         Color color = _currentConfig.getColorOfType(type);
 
         Tile tile = _tilePool.get<Tile>();
-        tile.setUp(slot, _tilePool);
+        tile.setUp(slot, _tilePool, getRandomType());
         tile.setType(type, color);
         slot.addTile(tile);
         tile.transform.localScale = Vector3.one;
         return tile;
     }
 
-    
-    
+
+    TileType getRandomType()
+    {
+        return (TileType) Random.Range(0, 3);
+    }
 }
