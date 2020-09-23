@@ -89,7 +89,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rect: {fileID: 6073597120109554754}
-  slots: []
 --- !u!114 &9064462103844068870
 MonoBehaviour:
   m_ObjectHideFlags: 0

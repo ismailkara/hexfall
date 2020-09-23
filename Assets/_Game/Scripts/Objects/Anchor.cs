@@ -5,7 +5,8 @@ public class Anchor : MonoBehaviour
 {
     public RectTransform rect;
     
-    public Slot[] slots;
+    public Slot[] slots { get; private set; }
+    public List<Anchor> anchors { get; private set; }
 
     private Transform _slotHolder;
 
@@ -21,6 +22,12 @@ public class Anchor : MonoBehaviour
     public void init(Transform holder)
     {
         _slotHolder = holder;
+        anchors = new List<Anchor>();
+    }
+
+    public void addAnchor(Anchor other)
+    {
+        if(!anchors.Contains(other)) anchors.Add(other);
     }
     public void addSlots(List<Slot> tiles)
     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 
@@ -52,6 +53,7 @@ public class BoardController : MonoBehaviour
         buildAnchors();
         registerSlotsToAnchors();
         registerNeighbors();
+        registerNeighborAnchors();
         OnBoardReady?.Invoke(_currentConfig, _board);
     }
 
@@ -184,6 +186,28 @@ public class BoardController : MonoBehaviour
                     center.addNeighbor(other);
                 }
             }
+        }
+    }
+
+    void registerNeighborAnchors()
+    {
+        float treshold = _tileSize.x * 1.1f;
+        treshold *= treshold;
+        foreach (var center in _anchors)
+        {
+            foreach (var other in _anchors)
+            {
+                if (other == center)
+                {
+                    continue;
+                }
+                float distance = (other.rect.anchoredPosition - center.rect.anchoredPosition).sqrMagnitude;
+                if (distance < treshold)
+                {
+                    center.addAnchor(other);
+                }
+            }
+            Debug.Log(center.anchors.Count);
         }
     }
 
