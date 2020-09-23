@@ -36,6 +36,7 @@ public class Anchor : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             slots[i] = tiles[i];
+            slots[i].addAnchor(this);
         }
     }
 

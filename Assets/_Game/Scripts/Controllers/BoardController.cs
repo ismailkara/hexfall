@@ -30,6 +30,23 @@ public class BoardController : MonoBehaviour
         Instance = this;
         init();
     }
+    
+    
+#if UNITY_EDITOR
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            foreach (var anchor in _anchors)
+            {
+                foreach (var slot in anchor.slots)
+                {
+                    Debug.Log(slot.tile.type);
+                }
+            }
+        }
+    }
+#endif
 
     void init()
     {
@@ -207,7 +224,6 @@ public class BoardController : MonoBehaviour
                     center.addAnchor(other);
                 }
             }
-            Debug.Log(center.anchors.Count);
         }
     }
 

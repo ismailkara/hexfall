@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.WSA.Input;
 
 public class GameLogic : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class GameLogic : MonoBehaviour
         InputController.OnDragUp += handleDragUp;
         InputController.OnDragDown += handleDragDown;
     }
+
     
 
     #region event handlers
@@ -61,38 +63,52 @@ public class GameLogic : MonoBehaviour
         // OnTileDestroyed?.Invoke(temp);
     }
 
+    public bool calculateGoal(List<Anchor> anchors)
+    {
+        bool goal = false;
+        List<Slot> destroySlots = new List<Slot>();
+        foreach (var anchor in anchors)
+        {
+            Debug.Log(anchor.slots[0].tile.type + "  " + anchor.slots[1].tile.type + "  " + anchor.slots[2].tile.type);
+            bool match = anchor.slots[0].tile.type == anchor.slots[1].tile.type;
+            match = match && anchor.slots[0].tile.type == anchor.slots[2].tile.type;
+
+            if (match)
+            {
+                addSlot(ref destroySlots, anchor.slots[0]);
+                addSlot(ref destroySlots, anchor.slots[1]);
+                addSlot(ref destroySlots, anchor.slots[2]);
+            }
+
+            goal = goal || match;
+        }
+
+        OnTileDestroyed?.Invoke(destroySlots);
+        return goal;
+    }
+
+    void addSlot(ref List<Slot> slots, Slot slot)
+    {
+        if (!slots.Contains(slot))
+        {
+            slots.Add(slot);
+        }
+    }
+
     public bool calculateGoal(List<Slot> slots)
     {
         Slot[] temp = new Slot[slots.Count];
-
+    
         for (int i = 0; i < slots.Count; i++)
         {
             temp[i] = slots[i];
         }
-
+    
         return calculateGoal(temp);
     }
     public bool calculateGoal(Slot[] slots)
     {
-        List<Slot> destroySlots = new List<Slot>();
-
-        foreach (var slot in slots)
-        {
-            List<Slot> temp = calculateGoal(slot);
-            foreach (var tile in temp)
-            {
-                if(!destroySlots.Contains(tile)) destroySlots.Add(tile);
-            }
-        }
-
-        if (destroySlots.Count != 0)
-        {
-            _selected = null;        
-            OnTileDestroyed?.Invoke(destroySlots);
-            return true;
-        }
-
-        return false;
+        return calculateGoal(getAnchors(slots));
     }
 
     List<Slot> calculateGoal(Slot slot)
@@ -127,5 +143,33 @@ public class GameLogic : MonoBehaviour
         }
         OnTileDestroyed?.Invoke(temp);
 
+    }
+
+    List<Anchor> getAnchors(Slot[] slots)
+    {
+        List<Slot> temp = new List<Slot>();
+
+        foreach (var slot in slots)
+        {
+            temp.Add(slot);
+        }
+
+        return getAnchors(temp);
+    }
+    List<Anchor> getAnchors(List<Slot> slots)
+    {
+        List<Anchor> result = new List<Anchor>();
+        foreach (var slot in slots)
+        {
+            foreach (var anchor in slot.connectedAnchors)
+            {
+                if (!result.Contains(anchor))
+                {
+                    result.Add(anchor);
+                }
+            }
+        }
+
+        return result;
     }
 }
