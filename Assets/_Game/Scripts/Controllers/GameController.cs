@@ -36,10 +36,12 @@ public class GameController : MonoBehaviour
     {
         OnNewGame?.Invoke(hard);
     }
+    
+    
 
     public void bombExploded()
     {
-        
+        gameOver();
     }
 
     void gameOver()

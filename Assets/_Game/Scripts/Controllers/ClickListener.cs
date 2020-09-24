@@ -6,4 +6,9 @@ public class ClickListener : MonoBehaviour
     {
         GameController.Instance.newGame();
     }
+
+    public void onEndGameClicked()
+    {
+        GameController.Instance.bombExploded();
+    }
 }
