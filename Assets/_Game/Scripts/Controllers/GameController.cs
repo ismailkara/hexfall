@@ -8,7 +8,7 @@ public class GameController : MonoBehaviour
     public static Action<GameConfig> OnNewGame;
     public static Action OnGameOver;
     
-    public GameConfig easy, hard;
+    public GameConfig gameConfig;
 
     private void Awake()
     {
@@ -34,7 +34,7 @@ public class GameController : MonoBehaviour
 
     public void newGame()
     {
-        OnNewGame?.Invoke(hard);
+        OnNewGame?.Invoke(gameConfig);
     }
     
     

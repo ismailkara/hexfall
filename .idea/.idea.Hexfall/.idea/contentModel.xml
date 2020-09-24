@@ -32,6 +32,7 @@
             </e>
           </e>
         </e>
+        <e p="readme.txt" t="Include" />
       </e>
       <e p="Hexfall.sln" t="IncludeFlat" />
       <e p="obj" t="ExcludeRecursive" />
