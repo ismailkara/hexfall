@@ -118,6 +118,7 @@ public class Anchor : MonoBehaviour
             }
             else
             {
+                 
                 GameLogic.Instance.onMatch();
                 
             }

@@ -31,6 +31,7 @@ public class GameLogic : MonoBehaviour
         if (_selected != null)
         {
             _selected.rotate(1, 0);
+            InputController.Instance.disableInput();
         }
         
         
@@ -41,6 +42,8 @@ public class GameLogic : MonoBehaviour
         if (_selected != null)
         {
             _selected.rotate(-1, 0);
+            InputController.Instance.disableInput();
+
         }
     }
 
@@ -48,6 +51,10 @@ public class GameLogic : MonoBehaviour
     
     public void anchorSelected(Anchor anchor)
     {
+        if (InputController.Instance.getInputEnabled())
+        {
+            return;
+        }
         if (_selected != null)
         {
             _selected.deselect();

@@ -114,7 +114,7 @@ public class Tile : MonoBehaviour
 
     public void setSelectActive(bool active)
     {
-        @select.gameObject.SetActive(active);
+        select.gameObject.SetActive(active);
     }
     public void onClick()
     {

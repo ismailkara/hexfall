@@ -98,4 +98,9 @@ public class InputController : MonoBehaviour
         _inputEnabled = true;
         _startPosition = Input.mousePosition;
     }
+
+    public bool getInputEnabled()
+    {
+        return _inputEnabled;
+    }
 }
