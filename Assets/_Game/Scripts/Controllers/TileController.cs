@@ -46,7 +46,7 @@ public class TileController : MonoBehaviour
         for (var index = 0; index < slots.Count; index++)
         {
             Slot slot = slots[index];
-            slot.tile.recycle();
+            slot.tile.recycleWithAnim();
             slot.tile = null;
 
         }
@@ -79,7 +79,7 @@ public class TileController : MonoBehaviour
     {
         foreach (var tile in _tiles)
         {
-            tile.recycle();
+            tile.recycleWithAnim();
         }
     }
 

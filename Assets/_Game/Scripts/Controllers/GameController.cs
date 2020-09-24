@@ -27,7 +27,6 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             gameOver();
-            newGame();
         }
     }
 #endif

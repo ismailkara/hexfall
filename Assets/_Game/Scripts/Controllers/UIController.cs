@@ -18,7 +18,10 @@ public class UIController : MonoBehaviour
     }
     void handleGameOver()
     {
-        gameOverPopup.SetActive(true);
+        Moves.instance.executeWithDelay(() =>
+        {
+            gameOverPopup.SetActive(true);
+        }, .6f);
     }
     
 

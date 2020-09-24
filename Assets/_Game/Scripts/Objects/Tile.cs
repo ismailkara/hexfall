@@ -66,8 +66,22 @@ public class Tile : MonoBehaviour
     public void recycle()
     {
         // Destroy(gameObject);
+        transform.localScale = Vector3.one;
         setSelectActive(false);
         _tilePool.recycle(this);
+    }
+
+    public void recycleWithAnim()
+    {
+        Move scale = new Move(gameObject);
+        scale.animTime = .3f;
+        scale.obj.endScale = Vector3.zero;
+        scale.callback = () =>
+        {
+            recycle();
+        };
+
+        scale.run();
     }
 
     public void dropFromAbove(float delay, Action callback)

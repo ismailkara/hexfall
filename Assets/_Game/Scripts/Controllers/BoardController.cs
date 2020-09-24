@@ -78,10 +78,13 @@ public class BoardController : MonoBehaviour
 
     void handleGameOver()
     {
-        foreach (var slot in _board)
-        {
-            recycle(slot);
-        }
+        Moves.instance.executeWithDelay(() =>
+            {
+                foreach (var slot in _board)
+                {
+                    recycle(slot);
+                }
+            },.5f);
 
         foreach (var anchor in _anchors)
         {
