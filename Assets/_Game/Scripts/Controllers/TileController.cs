@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
@@ -24,6 +25,13 @@ public class TileController : MonoBehaviour
         init();
     }
 
+
+    private void Start()
+    {
+        GameLogic.OnTileDestroyed += handleTileDestroyed;
+
+    }
+
     void init()
     {
         
@@ -35,7 +43,6 @@ public class TileController : MonoBehaviour
     void subscribeEvents()
     {
         GameController.OnGameOver += handleGameOver;
-        GameLogic.OnTileDestroyed += handleTileDestroyed;
         BoardController.OnBoardReady += handleBoardReady;
     }
 
