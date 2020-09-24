@@ -13,6 +13,7 @@
               <e p="InputController.cs" t="Include" />
               <e p="ScoreBoard.cs" t="Include" />
               <e p="TileController.cs" t="Include" />
+              <e p="UIController.cs" t="Include" />
             </e>
             <e p="Data" t="Include">
               <e p="GameConfig.cs" t="Include" />

@@ -17,6 +17,7 @@ public class TileController : MonoBehaviour
     private List<Tile> _tiles;
 
     private Dice _dice;
+    private bool _bombNext;
     private void Awake()
     {
         Instance = this;
@@ -59,6 +60,7 @@ public class TileController : MonoBehaviour
     }
     void handleBoardReady(GameConfig config, Slot[,] slots, List<Anchor> anchors)
     {
+        _bombNext = false;
         _anchors = anchors;
         _tiles = new List<Tile>();
         
@@ -207,13 +209,23 @@ public class TileController : MonoBehaviour
         return tile;
     }
 
-    public void enableBomb()
+    //store da indirdigimde bi yerden sonra surekli geliyodu bomba ama dokumanda her 1000 skorda 1 kez gelecek demissiniz o yuzden burayı degistirdim
+    // public void enableBomb()
+    // {
+    //     _dice.add(TileType.Bomb, 2);
+    // }
+    public void insertBomb()
     {
-        _dice.add(TileType.Bomb, 2);
+        _bombNext = true;
     }
 
     TileType getRandomType()
     {
+        if (_bombNext)
+        {
+            _bombNext = false;
+            return TileType.Bomb;
+        }
         return _dice.roll<TileType>();
     }
 

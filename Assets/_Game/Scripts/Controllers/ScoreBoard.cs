@@ -12,6 +12,7 @@ public class ScoreBoard : MonoBehaviour
     [SerializeField] private Transform pointHolder;
 
     private ObjectPool _scorePool;
+    private int _bombCount;
 
     private int score;
     void Awake()
@@ -30,6 +31,7 @@ public class ScoreBoard : MonoBehaviour
 
     void handleNewGame(GameConfig config)
     {
+        _bombCount = 0;
         score = 0;
         updateScoreBoard();
     }
@@ -49,9 +51,10 @@ public class ScoreBoard : MonoBehaviour
             spawnPoint(slot.tile);
         }
 
-        if (score < 1000 && score + gainedScore >= 1000)
+        if (_bombCount != score % 1000)
         {
-            TileController.Instance.enableBomb();
+            _bombCount = score % 1000;
+            TileController.Instance.insertBomb();
         }
 
         score += gainedScore;

@@ -51,7 +51,7 @@ public class GameLogic : MonoBehaviour
     
     public void anchorSelected(Anchor anchor)
     {
-        if (InputController.Instance.getInputEnabled())
+        if (!InputController.Instance.getInputEnabled())
         {
             return;
         }
