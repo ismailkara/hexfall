@@ -1,18 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private GameObject gameOverPopup;
+
+    private void Awake()
     {
-        
+        GameController.OnNewGame += handleNewGame;
+        GameController.OnGameOver += handleGameOver;
     }
 
-    // Update is called once per frame
-    void Update()
+    #region event handlers
+
+    void handleNewGame(GameConfig config)
     {
-        
+        gameOverPopup.SetActive(false);
     }
+    void handleGameOver()
+    {
+        gameOverPopup.SetActive(true);
+    }
+    
+
+    #endregion
+    
+    
 }

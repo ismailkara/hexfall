@@ -11,6 +11,11 @@ public class GameController : MonoBehaviour
     
     public GameConfig easy, hard;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     private void Start()
     {
         newGame();
@@ -27,7 +32,7 @@ public class GameController : MonoBehaviour
     }
 #endif
 
-    void newGame()
+    public void newGame()
     {
         OnNewGame?.Invoke(hard);
     }

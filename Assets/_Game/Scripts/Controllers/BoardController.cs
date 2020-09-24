@@ -66,7 +66,6 @@ public class BoardController : MonoBehaviour
 
     void handleNewGame(GameConfig config)
     {
-        Debug.Log("new game");
         _currentConfig = config;
         calculateCellSize();
         buildBoard();

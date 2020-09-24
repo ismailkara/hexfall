@@ -51,9 +51,9 @@ public class ScoreBoard : MonoBehaviour
             spawnPoint(slot.tile);
         }
 
-        if (_bombCount != score % 1000)
+        if (_bombCount != score / 1000)
         {
-            _bombCount = score % 1000;
+            _bombCount = score / 1000;
             TileController.Instance.insertBomb();
         }
 

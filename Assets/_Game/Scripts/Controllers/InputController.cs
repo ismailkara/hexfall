@@ -16,8 +16,24 @@ public class InputController : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        GameController.OnNewGame += handleNewGame;
+        GameController.OnGameOver += handleGameOver;
     }
 
+    #region event handlers
+
+    void handleNewGame(GameConfig config)
+    {
+        enableInput();
+    }
+
+    void handleGameOver()
+    {
+        disableInput();
+    }
+
+    #endregion
 
 
     void Update()

@@ -64,7 +64,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rect: {fileID: 1707841402574559628}
   slot: {fileID: 0}
-  select: {fileID: 1711552801730733847}
+  selectArea: {fileID: 1711552801730733847}
   star: {fileID: 6082798649254878257}
   faceImage: {fileID: 8667148970609030315}
   bombCount: {fileID: 6173574140048821752}
@@ -133,7 +133,6 @@ GameObject:
   - component: {fileID: 7262294601618153169}
   - component: {fileID: 7871263112964378167}
   - component: {fileID: 6330338793501095147}
-  - component: {fileID: 6481395352331232900}
   m_Layer: 5
   m_Name: Selection
   m_TagString: Untagged
@@ -197,24 +196,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6481395352331232900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1711552801730733847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44aeea197d7b0493db104f2027c1bbf6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rect: {fileID: 0}
-  slot: {fileID: 0}
-  select: {fileID: 0}
-  star: {fileID: 0}
-  faceImage: {fileID: 0}
-  bombCount: {fileID: 0}
 --- !u!1 &6082798649254878257
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,7 +207,6 @@ GameObject:
   - component: {fileID: 5048081168339250517}
   - component: {fileID: 2582686458986887801}
   - component: {fileID: 3439629515710062069}
-  - component: {fileID: 958684750026117457}
   m_Layer: 5
   m_Name: star
   m_TagString: Untagged
@@ -282,7 +262,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 883dadbd03a684b6f97a897ddc98400f, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -290,24 +270,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &958684750026117457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6082798649254878257}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44aeea197d7b0493db104f2027c1bbf6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rect: {fileID: 0}
-  slot: {fileID: 0}
-  select: {fileID: 0}
-  star: {fileID: 0}
-  faceImage: {fileID: 0}
-  bombCount: {fileID: 0}
 --- !u!1 &8247410351116761261
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,7 +280,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6034831087541118898}
   - component: {fileID: 2592962522827074991}
-  - component: {fileID: 3898315379848422678}
   - component: {fileID: 6173574140048821752}
   m_Layer: 5
   m_Name: bomb
@@ -354,24 +315,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8247410351116761261}
   m_CullTransparentMesh: 0
---- !u!114 &3898315379848422678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8247410351116761261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44aeea197d7b0493db104f2027c1bbf6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rect: {fileID: 0}
-  slot: {fileID: 0}
-  select: {fileID: 0}
-  star: {fileID: 0}
-  faceImage: {fileID: 0}
-  bombCount: {fileID: 0}
 --- !u!114 &6173574140048821752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -416,7 +359,6 @@ GameObject:
   - component: {fileID: 4845055403060431267}
   - component: {fileID: 4440588391206144131}
   - component: {fileID: 8667148970609030315}
-  - component: {fileID: 4939125993132150830}
   m_Layer: 5
   m_Name: image
   m_TagString: Untagged
@@ -480,21 +422,3 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4939125993132150830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8370001006562009736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44aeea197d7b0493db104f2027c1bbf6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rect: {fileID: 0}
-  slot: {fileID: 0}
-  select: {fileID: 0}
-  star: {fileID: 0}
-  faceImage: {fileID: 0}
-  bombCount: {fileID: 0}

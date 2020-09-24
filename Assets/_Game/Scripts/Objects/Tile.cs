@@ -14,7 +14,7 @@ public class Tile : MonoBehaviour
     private const float DropTime = .4f;
     private const float DropDistance = 800f;
 
-    [SerializeField] private GameObject select, star;
+    [SerializeField] private GameObject selectArea, star;
     [SerializeField] private Image faceImage;
     [SerializeField] private Text bombCount;
 
@@ -52,9 +52,14 @@ public class Tile : MonoBehaviour
 
     void onMatch()
     {
+        setSelectActive(false);
         if (type == TileType.Bomb)
         {
             _countDown--;
+            if (_countDown == 0)
+            {
+                GameController.Instance.bombExploded();
+            }
             updateBomb();
         }
     }
@@ -114,7 +119,7 @@ public class Tile : MonoBehaviour
 
     public void setSelectActive(bool active)
     {
-        select.gameObject.SetActive(active);
+        selectArea.gameObject.SetActive(active);
     }
     public void onClick()
     {
