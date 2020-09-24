@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public class TileController : MonoBehaviour
@@ -7,6 +8,7 @@ public class TileController : MonoBehaviour
     public GameObject tilePrefab;
 
     private Slot[,] _board;
+    private List<Anchor> _anchors;
     private ObjectPool _tilePool;
     private GameConfig _currentConfig;
 
@@ -55,8 +57,9 @@ public class TileController : MonoBehaviour
 
         }
     }
-    void handleBoardReady(GameConfig config, Slot[,] slots)
+    void handleBoardReady(GameConfig config, Slot[,] slots, List<Anchor> anchors)
     {
+        _anchors = anchors;
         _tiles = new List<Tile>();
         
         _dice = new Dice();
@@ -66,6 +69,7 @@ public class TileController : MonoBehaviour
         _currentConfig = config;
         _board = slots;
         fillBoard();
+        fillColors();
         
     }
 
@@ -86,8 +90,35 @@ public class TileController : MonoBehaviour
         foreach (var slot in _board)
         {
 
-            Tile tile = spawnTile(slot);
+            Tile tile = spawnEmptyTile(slot);
             tile.resetPosition();
+        }
+    }
+
+    //baslangıcta match durumu olmaması icin komsuları kontrol ederek renkleri dolduruyorum
+    void fillColors()
+    {
+        foreach (var anchor in _anchors)
+        {
+
+            foreach (var slot in anchor.slots)
+            {
+                if (slot.tile.color != - 1)
+                {
+                    continue;
+                }
+                List<int> bannedColors = new List<int>();
+
+                foreach (var slotAnchor in slot.connectedAnchors)
+                {
+                    bannedColors.Add(slotAnchor.calculateBannedColor());
+                }
+                int color = getRandomIntExcludeBanned(_currentConfig.colors.Length, bannedColors);
+                // Debug.Log("banned color " + bannedColor + "  " + color + "   " + (bannedColor == color));
+                
+                slot.tile.setColor(color, _currentConfig.getColorOfType(color));
+            }
+            
         }
     }
 
@@ -147,6 +178,19 @@ public class TileController : MonoBehaviour
     }
 
 
+    private Tile spawnEmptyTile(Slot slot)
+    {
+        int type = -1;
+
+        Tile tile = _tilePool.get<Tile>();
+        tile.setUp(slot, _tilePool, getRandomType());
+        tile.setColor(type, Color.white);
+        slot.addTile(tile);
+        tile.transform.localScale = Vector3.one;
+        
+        _tiles.Add(tile);
+        return tile;
+    }
     private Tile spawnTile(Slot slot)
     {
         
@@ -155,7 +199,7 @@ public class TileController : MonoBehaviour
 
         Tile tile = _tilePool.get<Tile>();
         tile.setUp(slot, _tilePool, getRandomType());
-        tile.setType(type, color);
+        tile.setColor(type, color);
         slot.addTile(tile);
         tile.transform.localScale = Vector3.one;
         
@@ -171,6 +215,18 @@ public class TileController : MonoBehaviour
     TileType getRandomType()
     {
         return _dice.roll<TileType>();
+    }
+
+    private int getRandomIntExcludeBanned(int max, List<int> banned)
+    {
+        List<int> pool = new List<int>();
+
+        for (int i = 0; i < max; i++)
+        {
+            if(!banned.Contains(i)) pool.Add(i);
+        }
+
+        return pool.GetRandom();
     }
     
 }

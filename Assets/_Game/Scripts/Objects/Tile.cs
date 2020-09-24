@@ -44,7 +44,7 @@ public class Tile : MonoBehaviour
         this.slot = slot;
     }
 
-    public void setType(int t, Color color)
+    public void setColor(int t, Color color)
     {
         this.color = t;
         faceImage.color = color;

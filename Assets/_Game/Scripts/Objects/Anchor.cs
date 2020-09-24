@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public class Anchor : MonoBehaviour
@@ -160,5 +161,37 @@ public class Anchor : MonoBehaviour
         {
             slot.tile.setSelectActive(false);
         }
+    }
+
+    public int calculateBannedColor()
+    {
+        int result = -1;
+
+        foreach (var slotA in slots)
+        {
+            foreach (var slotB in slots)
+            {
+                if (slotA == slotB)
+                {
+                    continue;
+                }
+
+                int A = slotA.tile.color;
+                int B = slotB.tile.color;
+
+                if (A == -1 || B == -1)
+                {
+                    continue;
+                }
+
+                if (A == B)
+                {
+                    result = A;
+                    return result;
+                }
+            }
+        }
+        
+        return result;
     }
 }

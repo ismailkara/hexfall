@@ -8,7 +8,7 @@ public class BoardController : MonoBehaviour
 {
     public static BoardController Instance;
 
-    public static Action<GameConfig, Slot[,]> OnBoardReady;
+    public static Action<GameConfig, Slot[,], List<Anchor>> OnBoardReady;
     
     private const float TileSizeRatio = 1.1547005383792515290182975610039149112952035025402537520372046529f; // duzgun altıgenin boy/en oranı, 2/√3
     
@@ -74,7 +74,7 @@ public class BoardController : MonoBehaviour
         registerSlotsToAnchors();
         registerNeighbors();
         registerNeighborAnchors();
-        OnBoardReady?.Invoke(_currentConfig, _board);
+        OnBoardReady?.Invoke(_currentConfig, _board, _anchors);
     }
 
     void handleGameOver()
