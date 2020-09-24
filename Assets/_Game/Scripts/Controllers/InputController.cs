@@ -9,7 +9,7 @@ public class InputController : MonoBehaviour
 
     public static Action OnDragDown, OnDragUp;
 
-    private const float DistanceTreshold = 10;
+    private const float DistanceTreshold = 50;
 
     private Vector3 _startPosition;
     private bool _inputEnabled = true;
