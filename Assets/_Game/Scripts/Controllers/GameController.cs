@@ -42,10 +42,6 @@ public class GameController : MonoBehaviour
         
     }
 
-    public void noMoreMoves()
-    {
-        
-    }
     void gameOver()
     {
         OnGameOver?.Invoke();
